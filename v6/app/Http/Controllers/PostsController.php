@@ -20,7 +20,7 @@ class PostsController extends Controller
         //die($posts);
 
         return view('posts', [
-            'posts'=> $posts
+            'posts' => $posts,
         ]);
     }
 
@@ -44,10 +44,10 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         //
-        $post = new  Post();
+        $post = new Post();
 
         $post->title = request('title');
-        $post->body  = request('body');
+        $post->body = request('body');
         $post->slug = request('slug');
 
         $post->save();
@@ -59,13 +59,13 @@ class PostsController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Post $post)
     {
         //
-        $post = Post::where('slug', $slug)->firstOrFail();
+        //$post = Post::where('slug', $slug)->firstOrFail();
         //$post = \DB::table('posts')->where('slug', $slug)->first();
         return view('post', [
-            'post' => $post
+            'post' => $post,
         ]);
     }
 
@@ -75,12 +75,12 @@ class PostsController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(Post $post)
     {
         //
-        $post = Post::where('slug', $slug)->firstOrFail();
+        //$post = Post::where('slug', $slug)->firstOrFail();
         return view('edit', [
-            'post'=>$post
+            'post' => $post,
         ]);
     }
 
@@ -91,10 +91,10 @@ class PostsController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update($slug)
+    public function update(Post $post)
     {
         //
-        $post = Post::where('slug', $slug)->firstOrFail();
+        //$post = Post::where('slug', $slug)->firstOrFail();
 
         $post->title = request('title');
         $post->slug = request('slug');
@@ -103,7 +103,6 @@ class PostsController extends Controller
         $post->save();
 
         return redirect('/posts/' . $post->slug);
-
     }
 
     /**
