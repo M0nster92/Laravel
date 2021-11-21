@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -15,7 +16,12 @@ class PostsController extends Controller
     public function index()
     {
         //
-        $posts = Post::latest()->get();
+        if (request('tag')) {
+            $posts = Tag::where('name', request('tag'))->firstOrFail()->posts;
+        } else {
+            $posts = Post::latest()->get();
+        }
+
 
         //die($posts);
 
@@ -43,7 +49,12 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'title' => 'required',
+            'slug' => 'required',
+            'body' => 'required'
+        ]);
+
         $post = new Post();
 
         $post->title = request('title');

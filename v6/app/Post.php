@@ -11,11 +11,21 @@ class Post extends Model
 
     public function getRouteKeyName()
     {
-        return 'slug';
+        return 'id';
     }
 
     public function path()
     {
         return route('posts.show', $this);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

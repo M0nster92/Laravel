@@ -3,7 +3,7 @@
 @section('content')
 <h1>Create Post</h1>
 
-<form method="POST" action="/posts/{{$post->slug}}">
+<form method="POST" action="/posts/{{$post->id}}">
     @csrf
     @method('PUT')
     <div class="field">
