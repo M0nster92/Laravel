@@ -38,7 +38,9 @@ class PostsController extends Controller
     public function create()
     {
         //
-        return view('create');
+        return view('create', [
+            'tags' => Tag::all()
+        ]);
     }
 
     /**
@@ -49,19 +51,21 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'title' => 'required',
-            'slug' => 'required',
-            'body' => 'required'
-        ]);
+        //dd(request()->all());
+        $this->validateArticle();
 
-        $post = new Post();
+        $post = new Post(request(['title', 'slug', 'body']));
 
-        $post->title = request('title');
-        $post->body = request('body');
-        $post->slug = request('slug');
+        //$post->title = request('title');
+        //$post->body = request('body');
+        //$post->slug = request('slug');
+        $post->user_id = 1;
 
         $post->save();
+
+        $post->tags()->attach(request('tags'));
+
+        return redirect('/posts');
     }
 
     /**
@@ -125,5 +129,15 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    protected function validateArticle()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'slug' =>  'required',
+            'body' => 'required',
+            'tags' => 'exists:tags,id'
+        ]);
     }
 }

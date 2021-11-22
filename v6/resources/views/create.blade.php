@@ -44,6 +44,17 @@
                 @enderror
             </div>
             <div class="mb-3">
+                <label for="tag" class="form-label">Tag</label>
+                <select class="form-control" id="tag" name="tags[]" multiple>
+                    @foreach ($tags as $tag)
+                    <option value="{{$tag->id}}">{{$tag->name}}</option>
+                    @endforeach
+                </select>
+                @error('tag')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </form>
